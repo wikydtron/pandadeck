@@ -20,4 +20,4 @@
 - Optional AI page: Claude Code / Codex sessions, usage limits, Approve / Deny on the panel.
 
 **Hardware**
-- A free 3D-printable desk stand built around BTT's magnetic dock.
+- A free 3D-printable desk stand built around BTT's magnetic dock, on MakerWorld.

@@ -63,7 +63,7 @@ Works with **Windows, macOS and Linux**.
   full-screen Approve / Deny when an agent asks for permission.
 - **Cross-platform app** for Windows, macOS and Linux: a tray icon and a friendly settings page,
   wireless firmware updates, and nothing ever leaves your computer.
-- **A 3D-printable desk stand**, free, with print-ready Bambu Studio projects.
+- **A 3D-printable desk stand**, free on MakerWorld, with print-ready Bambu Studio projects.
 
 ## What's on the screen
 
@@ -99,17 +99,17 @@ That's it. Everything else is optional:
 | Use the panel over Wi-Fi, update the firmware | [Wi-Fi and updates](docs/guide/08-wifi-and-updates.md) |
 | Fix something | [Troubleshooting](docs/guide/09-troubleshooting.md) |
 | Build it yourself | [Build from source](docs/guide/10-build-from-source.md) |
-| Print a desk stand for it | [Desk stand](hardware/stand/) |
+| Print a desk stand for it | [Desk stand](#desk-stand) (free on MakerWorld) |
 
 ## Desk stand
 
-<img src="hardware/stand/images/mockup-hero.jpg" alt="Panda Touch Desk Stand" width="300" align="right">
+<img src="docs/images/stand.jpg" alt="Panda Touch Desk Stand (render)" width="300" align="right">
 
 A 3D-printable desk stand turns the panel into a little desk display: it holds BTT's
 magnetic charging dock, leans the screen back 20°, hides the cable inside and leaves the
 side port free. No supports, about 2 h 40 min and 126 g of PLA on a P1S, plus 4 M3 heat-set
-inserts and 4 M3 screws. Printed and tested. Print-ready Bambu Studio projects, STL, STEP and the
-parametric CadQuery source are free in **[hardware/stand](hardware/stand/)** (CC BY-NC-SA 4.0).
+inserts and 4 M3 screws. Printed and tested. **Free on MakerWorld**: search for
+*Panda Touch Desk Stand* (posted by this repo's author; print-ready Bambu Studio projects, STL and STEP).
 
 <br clear="right">
 

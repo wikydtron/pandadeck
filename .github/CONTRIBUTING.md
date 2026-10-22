@@ -10,7 +10,6 @@ Thanks for helping! Bug reports, ideas, docs fixes and pull requests are all wel
 | `pio/` | PlatformIO project (custom sdkconfig for the 800×480 RGB panel) |
 | `app/pandadeck/` | The desktop app (Python): tray, settings page, music, HUD, deck, sounds, AI |
 | `app/lab_server/` | `pandadeck_lab.py`, the optional homelab companion |
-| `hardware/stand/` | The 3D-printable desk stand (CadQuery source, STEP, 3MF) |
 | `docs/` | The user guide, the panel protocol (`protocol.md`) and the app notes (`app.md`) |
 | `tests/` | Python tests (app, platforms) and C++ host tests for the firmware's pure modules |
 | `tools/` | Font generator, demo/screenshot helpers, OTA flasher |
@@ -41,5 +40,4 @@ it serves the real UI against a pretend computer and panel.
 - Keep the panel protocol backwards compatible, or document the change in `docs/protocol.md`.
 - Commit messages: `type: summary` (`feat`, `fix`, `docs`, `refactor`, `test`, `chore`).
 
-By contributing you agree that your work is released under the [MIT license](../LICENSE)
-(the desk stand under [CC BY-NC-SA 4.0](../hardware/stand/LICENSE.md)).
+By contributing you agree that your work is released under the [MIT license](../LICENSE).
