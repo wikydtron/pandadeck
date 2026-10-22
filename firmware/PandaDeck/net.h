@@ -2,7 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#define FW_VERSION "0.6.5"
+#define FW_VERSION "0.6.6"
 
 /* Starts Wi-Fi (non-blocking, never required), NTP and the link task that
  * serves both the USB link (usb_link.cpp) and, once Wi-Fi is up, the HTTP

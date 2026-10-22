@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.6.6
+
+- MUSIC page: a volume slider for your computer's output (tap the speaker to mute), on
+  Windows, macOS and Linux.
+- The ❤ Like button only appears while Spotify is playing and you're signed in to Spotify.
+- Soundboard: one sound at a time; tap another to switch, tap the playing one to stop it.
+- Settings page: the side-bar dots now mean the same thing everywhere (green working,
+  grey idle, amber needs a look, red broken), with a hover explanation.
+
 ## 0.6.5: first public release
 
 **Panel firmware**

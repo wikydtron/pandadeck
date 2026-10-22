@@ -69,7 +69,7 @@ def snapshot_block(np, art_key: str, tint: str, label: str | None = None, liked:
     return {
         "ok": True,
         "app": app,
-        "liked": liked,      # ❤ Like: 1 in Liked Songs, 0 not, -1 unknown / not signed in
+        "liked": liked,      # ❤ Like: 1 in Liked Songs, 0 not, -1 = no heart (not Spotify / not signed in)
         "app_color": service_color(app),  # the panel's dot next to the source name ("" = cover tint)
         "title": one_line(np.title or "", 90),
         "artist": one_line(np.artist or "", 60),
@@ -150,8 +150,12 @@ class MediaCollector(Loop):
                           if np is not None else {"ok": False})
 
     def _liked(self, name: str, np, sp_np) -> int:
-        """❤ state of the track on screen (-1 when it can't be known)."""
+        """❤ state of the track on screen: 1 / 0, or -1 = no heart on the panel. Only when Spotify is
+        connected AND is what's playing (the desktop app or Spotify's own source), never for a
+        browser or another player."""
         if self.likes is None:
+            return -1
+        if name != "spotify" and "spotify" not in (getattr(np, "app", "") or "").lower():
             return -1
         hint = ""
         if name == "spotify":

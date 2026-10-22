@@ -171,7 +171,7 @@ def test_panel_like_and_settings_commands(settings):
             toggled.append(1)
             return True
 
-    np = NowPlaying(app="Google Chrome", title="Song", artist="Band", playing=True, extra={"source": "Chrome"})
+    np = NowPlaying(app="Spotify", title="Song", artist="Band", playing=True, extra={"source": "Spotify"})
 
     class Sys:
         def now_playing(self):

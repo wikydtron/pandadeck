@@ -191,6 +191,10 @@ class PactlAudio:
         run([self._pactl, "set-source-mute", "@DEFAULT_SOURCE@", "toggle"], timeout=2)
         self._mic.clear()
 
+    def set_volume(self, level: int) -> None:
+        run([self._pactl, "set-sink-volume", "@DEFAULT_SINK@", f"{int(level)}%"], timeout=2)
+        self._vol.clear()
+
 
 class WpctlAudio:
     def __init__(self, wpctl: str):
@@ -210,6 +214,10 @@ class WpctlAudio:
     def toggle_mic(self) -> None:
         run([self._wpctl, "set-mute", "@DEFAULT_AUDIO_SOURCE@", "toggle"], timeout=2)
         self._mic.clear()
+
+    def set_volume(self, level: int) -> None:
+        run([self._wpctl, "set-volume", "@DEFAULT_AUDIO_SINK@", f"{int(level) / 100:.2f}"], timeout=2)
+        self._vol.clear()
 
 
 # ---- autostart ----------------------------------------------------------------------------------------

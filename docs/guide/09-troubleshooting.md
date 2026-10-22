@@ -44,14 +44,13 @@ App buttons (launching an app) and music controls need the app running.
   …) works.
 * Or [sign in to Spotify](05-music.md#sign-in-with-spotify), which works on every system.
 
-## The ❤ heart doesn't work
+## The ❤ heart doesn't show
 
-* Tapping it opens the Music settings: you're not signed in to Spotify yet — see
-  [Sign in with Spotify](05-music.md#sign-in-with-spotify).
-* The Music section says *Sign in again to enable ❤ Like*: your sign-in is older than
-  the Like button. Click it once to give Spotify's OK.
-* The settings page shows *♡ not on Spotify*: the song playing has no exact match on
-  Spotify (common for videos or local files).
+* It only appears while **Spotify** is playing: YouTube, other browsers and other players
+  don't get a heart.
+* You need to be [signed in to Spotify](05-music.md#sign-in-with-spotify). If the Music
+  section says *Sign in again to enable ❤ Like*, click it once to give Spotify's OK.
+* The settings page shows *♡ not on Spotify* when the song has no exact match on Spotify.
 
 ## Sound buttons are silent
 

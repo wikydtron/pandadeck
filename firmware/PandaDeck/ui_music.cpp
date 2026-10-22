@@ -32,6 +32,8 @@
 #define COL_W (760 - COL_X)
 #define BAR_CY 300      /* progress row centre */
 #define CTRL_CY 376     /* transport row centre */
+#define VOL_CY (ART_Y + ART_PX - 14)  /* volume row centre, level with the cover's bottom */
+#define VOL_SEND_MS 150 /* while dragging, at most this often */
 #define OPTIMISTIC_MS 2500
 #define RESYNC_DRIFT_S 2
 #define AGENT_OK_MS 4000
@@ -44,6 +46,10 @@ static lv_obj_t *s_slider, *s_pos, *s_dur;
 static lv_obj_t *s_btn_shuffle, *s_btn_prev, *s_btn_play, *s_btn_next, *s_btn_repeat;
 static lv_obj_t *s_play_ico;
 static lv_obj_t *s_btn_heart, *s_heart_ico;
+static lv_obj_t *s_vol_row, *s_vol_ico, *s_vol_slider, *s_vol_pct;
+static bool s_vol_drag = false;
+static uint32_t s_vol_hold_until = 0, s_vol_sent_at = 0;
+static int8_t s_pc_vol = -1; /* the computer's output volume from the snapshot */
 /* optimistic like: flips on tap until the snapshot agrees (or 4 s pass) */
 static int8_t s_opt_liked = -2;
 static uint32_t s_liked_until = 0;
@@ -140,19 +146,54 @@ static int8_t liked_now() {
   return s_ok ? s_m.liked : -1;
 }
 
-/* ❤: save/remove the song in Spotify's Liked Songs. Without a Spotify sign-in
- * (liked == -1) the tap asks the PC app to open its Spotify sign-in instead. */
+/* ❤: save/remove the song in Spotify's Liked Songs. Only shown while Spotify is
+ * connected and playing (liked 0/1); -1 hides it (another player, no sign-in). */
 static void on_heart(lv_event_t *) {
   if (!s_ok || store_ms_since_sync() > AGENT_OK_MS) return;
   int8_t cur = liked_now();
-  if (cur < 0) {
-    store_push_event("cmd", "", "settings:music");
-    return;
-  }
+  if (cur < 0) return;
   s_opt_liked = cur ? 0 : 1;
   s_liked_until = millis() + 4000;
   store_push_event("cmd", "", "media:like");
   render_heart();
+}
+
+/* Volume: the computer's output volume. Sent live while dragging (throttled)
+ * and on release; the snapshot's value is ignored for a moment after. */
+static void render_vol(int32_t v) {
+  char b[8];
+  snprintf(b, sizeof b, "%ld%%", (long)v);
+  ui_set_text(s_vol_pct, b);
+  ui_set_text(s_vol_ico, icon(v == 0 ? "mute" : "vol_up"));
+}
+
+static void send_volume(int32_t v) {
+  char cmd[20];
+  snprintf(cmd, sizeof cmd, "volume:%ld", (long)v);
+  store_push_event("cmd", "", cmd);
+  s_vol_sent_at = millis();
+}
+
+static void on_volume(lv_event_t *e) {
+  lv_event_code_t code = lv_event_get_code(e);
+  int32_t v = lv_slider_get_value(s_vol_slider);
+  if (code == LV_EVENT_PRESSED) {
+    s_vol_drag = true;
+  } else if (code == LV_EVENT_VALUE_CHANGED) {
+    render_vol(v);
+    if (s_vol_drag && agent_alive() && millis() - s_vol_sent_at >= VOL_SEND_MS) send_volume(v);
+  } else if (code == LV_EVENT_RELEASED || code == LV_EVENT_PRESS_LOST) {
+    if (!s_vol_drag) return;
+    s_vol_drag = false;
+    if (agent_alive()) send_volume(v);
+    s_vol_hold_until = millis() + OPTIMISTIC_MS;
+  }
+}
+
+/* The speaker icon: mute / unmute, as the USB keyboard's mute key. */
+static void on_vol_mute(lv_event_t *) {
+  DeckAction a;
+  if (deck_parse_action("media:mute", &a)) hid_fire(a);
 }
 
 static void on_repeat(lv_event_t *) {
@@ -268,6 +309,62 @@ static void build_slider() {
   lv_obj_add_event_cb(s_slider, on_slider, LV_EVENT_ALL, nullptr);
 }
 
+static void style_bar(lv_obj_t *sl, uint32_t indicator) {
+  lv_obj_remove_style_all(sl);
+  lv_obj_set_style_bg_color(sl, C(0xFFFFFF), LV_PART_MAIN);
+  lv_obj_set_style_bg_opa(sl, LV_OPA_20, LV_PART_MAIN);
+  lv_obj_set_style_radius(sl, 4, LV_PART_MAIN);
+  lv_obj_set_style_bg_color(sl, C(indicator), LV_PART_INDICATOR);
+  lv_obj_set_style_bg_opa(sl, LV_OPA_COVER, LV_PART_INDICATOR);
+  lv_obj_set_style_radius(sl, 4, LV_PART_INDICATOR);
+  lv_obj_set_style_bg_color(sl, C(COL_TEXT), LV_PART_KNOB);
+  lv_obj_set_style_bg_opa(sl, LV_OPA_COVER, LV_PART_KNOB);
+  lv_obj_set_style_radius(sl, LV_RADIUS_CIRCLE, LV_PART_KNOB);
+  lv_obj_set_style_pad_all(sl, 7, LV_PART_KNOB);  /* 22 px knob */
+  lv_obj_set_style_pad_all(sl, 12, LV_STATE_PRESSED | LV_PART_KNOB);
+}
+
+/* speaker (tap: mute) | slider | 42% — under the title, level with the cover's bottom */
+static void build_volume() {
+  s_vol_row = ui_box(s_root);
+  lv_obj_set_size(s_vol_row, COL_W, 44);
+  lv_obj_set_pos(s_vol_row, COL_X, VOL_CY - 22);
+  lv_obj_t *mute = ui_box(s_vol_row);
+  lv_obj_set_size(mute, 40, 44);
+  lv_obj_set_pos(mute, -6, 0);
+  lv_obj_add_flag(mute, LV_OBJ_FLAG_CLICKABLE);
+  lv_obj_add_event_cb(mute, on_vol_mute, LV_EVENT_CLICKED, nullptr);
+  s_vol_ico = ui_label(mute, &font_icons_20, COL_TEXT_DIM, icon("vol_up"));
+  lv_obj_center(s_vol_ico);
+  s_vol_pct = ui_label(s_vol_row, &font_mono_16, COL_TEXT_DIM, "");
+  lv_obj_set_width(s_vol_pct, 52);
+  lv_obj_set_style_text_align(s_vol_pct, LV_TEXT_ALIGN_RIGHT, 0);
+  lv_obj_align(s_vol_pct, LV_ALIGN_RIGHT_MID, 0, 0);
+  s_vol_slider = lv_slider_create(s_vol_row);
+  style_bar(s_vol_slider, COL_TEXT_DIM);
+  lv_obj_set_size(s_vol_slider, COL_W - 40 - 52 - 22, 8);
+  lv_obj_align(s_vol_slider, LV_ALIGN_LEFT_MID, 44, 0);
+  lv_slider_set_range(s_vol_slider, 0, 100);
+  lv_obj_set_ext_click_area(s_vol_slider, 18);
+  lv_obj_add_event_cb(s_vol_slider, on_volume, LV_EVENT_ALL, nullptr);
+  lv_obj_add_flag(s_vol_row, LV_OBJ_FLAG_HIDDEN);
+}
+
+/* Shown while the app is connected and reports a volume; follows it unless the
+ * finger is on it (or just let go). */
+static void render_volume() {
+  bool show = s_ok && agent_alive() && s_pc_vol >= 0;
+  if (lv_obj_has_flag(s_vol_row, LV_OBJ_FLAG_HIDDEN) == show) {
+    if (show) lv_obj_remove_flag(s_vol_row, LV_OBJ_FLAG_HIDDEN);
+    else lv_obj_add_flag(s_vol_row, LV_OBJ_FLAG_HIDDEN);
+  }
+  if (!show || s_vol_drag || (int32_t)(s_vol_hold_until - millis()) > 0) return;
+  if (lv_slider_get_value(s_vol_slider) != s_pc_vol || !lv_label_get_text(s_vol_pct)[0]) {
+    lv_slider_set_value(s_vol_slider, s_pc_vol, LV_ANIM_OFF);
+    render_vol(s_pc_vol);
+  }
+}
+
 static void build_transport() {
   /* shuffle 96 | prev 132 | play 196 | next 132 | repeat 96, gaps 20 = 732 */
   const int g = 20;
@@ -345,6 +442,7 @@ void music_page_build(lv_obj_t *tile) {
   ui_one_line(s_album);
 
   build_slider();
+  build_volume();
   build_transport();
   build_empty(tile);
 }
@@ -487,6 +585,7 @@ static void show_empty(bool empty, bool agent_ok) {
 
 void music_page_update(const Model &m, bool agent_ok) {
   const MediaInfo &n = m.media;
+  s_pc_vol = m.pc.vol;
   bool ok = agent_ok && n.ok;
   bool new_track = strcmp(n.title, s_m.title) || strcmp(n.artist, s_m.artist);
   bool state_flip = ok && (n.playing != s_m.playing);
@@ -509,6 +608,7 @@ void music_page_update(const Model &m, bool agent_ok) {
   show_empty(!ok, agent_ok);
   if (!ok) {
     render_art();
+    render_volume(); /* hides it */
     return;
   }
   char app[24];
@@ -525,12 +625,18 @@ void music_page_update(const Model &m, bool agent_ok) {
   style_toggle(s_btn_repeat, n.repeat, n.repeat == 1 ? icon("repeat_one") : icon("repeat"));
   render_play();
   render_heart();
+  render_volume();
   render_progress();
 }
 
 /* Called on every UI refresh tick (250 ms): clock + optimistic state. */
 static void render_heart() {
   int8_t l = liked_now();
+  if ((l < 0) != lv_obj_has_flag(s_btn_heart, LV_OBJ_FLAG_HIDDEN)) {
+    if (l < 0) lv_obj_add_flag(s_btn_heart, LV_OBJ_FLAG_HIDDEN);
+    else lv_obj_remove_flag(s_btn_heart, LV_OBJ_FLAG_HIDDEN);
+  }
+  if (l < 0) return;
   ui_set_text(s_heart_ico, icon(l == 1 ? "heart_s" : "heart"));
   ui_set_text_color(s_heart_ico, l == 1 ? (s_m.app_color ? s_m.app_color : 0x1DB954) : l == 0 ? COL_TEXT
                                                                                               : COL_TEXT_FAINT);
@@ -540,6 +646,7 @@ void music_page_tick() {
   if (!s_built || !s_ok) return;
   render_play();
   render_heart();
+  render_volume();
   render_progress();
   render_art(); /* the cover / backdrop may land a moment after the title */
 }

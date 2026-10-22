@@ -189,6 +189,11 @@ class MacAudio:
     def volume(self) -> int:
         return self._read()[0]
 
+    def set_volume(self, level: int) -> None:
+        run(["osascript", "-e", f"set volume output volume {int(level)}"], timeout=3)
+        with self._lock:
+            self._at = 0.0          # read it back on the next poll
+
     def mic_muted(self) -> bool | None:
         level = self._read()[1]
         return None if level is None else level == 0

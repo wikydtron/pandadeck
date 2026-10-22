@@ -43,6 +43,7 @@ class MediaBackend(Protocol):
 
 class AudioBackend(Protocol):
     def volume(self) -> int: ...               # 0..100, -1 unknown
+    def set_volume(self, level: int) -> None: ...   # 0..100: the default output
     def mic_muted(self) -> bool | None: ...    # None = unknown / no mic
     def toggle_mic(self) -> None: ...
 

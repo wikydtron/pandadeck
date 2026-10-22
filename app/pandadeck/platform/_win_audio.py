@@ -76,6 +76,9 @@ class WindowsAudio:
     def toggle_mic(self) -> None:
         self._q.put("toggle_mic")
 
+    def set_volume(self, level: int) -> None:
+        self._q.put(f"volume:{int(level)}")
+
     # ---- COM thread ------------------------------------------------------------------------
     def _endpoints(self, com):
         comtypes, EDataFlow, ERole, IAudioEndpointVolume, IMMDeviceEnumerator = com
@@ -131,6 +134,15 @@ class WindowsAudio:
                     except Exception as e:  # noqa: BLE001 - COMError isn't an OSError
                         log.warning("mic toggle failed (attempt %d): %s", attempt, e)
                         eps = None
+            if cmd and cmd.startswith("volume:"):
+                try:
+                    if eps is None:
+                        eps, age = self._endpoints(com), 0.0
+                    if eps[2] is not None:
+                        eps[2].SetMasterVolumeLevelScalar(int(cmd[7:]) / 100.0, None)
+                except Exception as e:  # noqa: BLE001 - COMError isn't an OSError
+                    log.warning("set volume failed: %s", e)
+                    eps = None
             try:
                 if eps is None or age >= REBUILD_EVERY_S:
                     eps, age = self._endpoints(com), 0.0

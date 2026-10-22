@@ -33,9 +33,13 @@ The **play** key on the DECK page also shows the real state: ⏸ while music pla
 ## ❤ Like
 
 The heart in the top-right corner adds the song to your Spotify **Liked Songs** (tap
-again to remove it). It works whatever is playing the music — the Spotify app, Spotify in
-a browser, … — as long as the song exists on Spotify. It needs the Spotify sign-in below;
-until then, tapping the heart opens the Music settings.
+again to remove it). It appears only when you're signed in to Spotify (below) and Spotify
+is what's playing; for YouTube, other browsers and other players there's no heart.
+
+## Volume
+
+The slider under the song sets your computer's volume (the default speakers or headphones),
+and follows it when you change it elsewhere. Tap the speaker icon to mute or unmute.
 
 ## Sign in with Spotify
 

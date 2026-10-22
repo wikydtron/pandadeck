@@ -7,6 +7,7 @@
     {"k":"cmd","a":"sound:<id>"}              play a sound on this computer (agent:sound:<id>)
     {"k":"cmd","a":"sound:stop"}              stop every sound playing
     {"k":"cmd","a":"media:<cmd>"}             seek:<s> | shuffle | repeat | playpause | next | prev
+    {"k":"cmd","a":"volume:<0..100>"}         the computer's output volume (MUSIC page slider)
     {"k":"cmd","a":"launch:app:<key>"}        open an app from the deck
     {"k":"cmd","a":"launch:target:<id>"}      open a file, folder or website from the deck
     {"k":"cmd","a":"launch:<name>"}           built-in targets (terminal, files, spotify, ...)
@@ -49,6 +50,9 @@ class Actions:
                 self.audio.toggle_mic()
         elif arg == "noop":
             pass
+        elif head == "volume":
+            if self.audio is not None and rest.lstrip("-").isdigit() and hasattr(self.audio, "set_volume"):
+                self.audio.set_volume(max(0, min(100, int(rest))))
         elif head == "settings":
             self._settings(rest)
         elif head == "media" and self.media is not None:
