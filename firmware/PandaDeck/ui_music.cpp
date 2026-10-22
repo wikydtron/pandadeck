@@ -34,6 +34,7 @@
 #define CTRL_CY 376     /* transport row centre */
 #define VOL_CY (ART_Y + ART_PX - 14)  /* volume row centre, level with the cover's bottom */
 #define VOL_SEND_MS 150 /* while dragging, at most this often */
+#define SKIP_S 10       /* the rewind / fast-forward pads */
 #define OPTIMISTIC_MS 2500
 #define RESYNC_DRIFT_S 2
 #define AGENT_OK_MS 4000
@@ -44,6 +45,8 @@ static lv_obj_t *s_art, *s_art_ph, *s_art_ph_ico;
 static lv_obj_t *s_dot, *s_app, *s_title, *s_artist, *s_album;
 static lv_obj_t *s_slider, *s_pos, *s_dur;
 static lv_obj_t *s_btn_shuffle, *s_btn_prev, *s_btn_play, *s_btn_next, *s_btn_repeat;
+static lv_obj_t *s_btn_rew, *s_btn_ff;
+static bool s_rew_long = false;
 static lv_obj_t *s_play_ico;
 static lv_obj_t *s_btn_heart, *s_heart_ico;
 static lv_obj_t *s_vol_row, *s_vol_ico, *s_vol_slider, *s_vol_pct;
@@ -195,6 +198,31 @@ static void on_vol_mute(lv_event_t *) {
   DeckAction a;
   if (deck_parse_action("media:mute", &a)) hid_fire(a);
 }
+
+/* ⏪ / ⏩: jump SKIP_S back / forward (the same seek as the progress bar).
+ * Long-press ⏪: replay the song from the start. */
+static void seek_to(int32_t t) {
+  if (!s_ok || !agent_alive() || s_m.dur_s <= 0) return;
+  if (t < 0) t = 0;
+  if (t > s_m.dur_s - 1) t = s_m.dur_s - 1;
+  char cmd[32];
+  snprintf(cmd, sizeof cmd, "media:seek:%ld", (long)t);
+  store_push_event("cmd", "", cmd);
+  rebase(t);
+}
+
+static void on_rew(lv_event_t *e) {
+  if (lv_event_get_code(e) == LV_EVENT_LONG_PRESSED) {
+    s_rew_long = true;
+    seek_to(0);
+  } else if (s_rew_long) {
+    s_rew_long = false; /* the click that ends a long press */
+  } else {
+    seek_to(live_pos() - SKIP_S);
+  }
+}
+
+static void on_ff(lv_event_t *) { seek_to(live_pos() + SKIP_S); }
 
 static void on_repeat(lv_event_t *) {
   if (s_ok && agent_alive()) store_push_event("cmd", "", "media:repeat");
@@ -366,21 +394,26 @@ static void render_volume() {
 }
 
 static void build_transport() {
-  /* shuffle 96 | prev 132 | play 196 | next 132 | repeat 96, gaps 20 = 732 */
-  const int g = 20;
-  int x = (800 - 732) / 2;
-  s_btn_shuffle = toggle_pad(s_root, 96, 72, x, icon("shuffle"), "SHUFFLE", on_shuffle);
-  x += 96 + g;
-  s_btn_prev = icon_pad(s_root, 132, 84, x, &font_icons_36, icon("prev_s"), on_prev, nullptr);
-  x += 132 + g;
-  s_btn_play = icon_pad(s_root, 196, 84, x, &font_icons_52, icon("play_s"), on_play, &s_play_ico);
+  /* shuffle 76 | -10 s 80 | prev 104 | play 160 | next 104 | +10 s 80 | repeat 76, gaps 12 = 752 */
+  const int g = 12;
+  int x = (800 - 752) / 2;
+  s_btn_shuffle = toggle_pad(s_root, 76, 72, x, icon("shuffle"), "SHUFFLE", on_shuffle);
+  x += 76 + g;
+  s_btn_rew = toggle_pad(s_root, 80, 72, x, icon("rew"), "10 S", on_rew);
+  lv_obj_add_event_cb(s_btn_rew, on_rew, LV_EVENT_LONG_PRESSED, nullptr);
+  x += 80 + g;
+  s_btn_prev = icon_pad(s_root, 104, 84, x, &font_icons_36, icon("prev_s"), on_prev, nullptr);
+  x += 104 + g;
+  s_btn_play = icon_pad(s_root, 160, 84, x, &font_icons_52, icon("play_s"), on_play, &s_play_ico);
   lv_obj_set_style_bg_opa(s_btn_play, LV_OPA_COVER, 0);
   lv_obj_set_style_border_width(s_btn_play, 0, 0);
   ui_set_text_color(s_play_ico, COL_BG);
-  x += 196 + g;
-  s_btn_next = icon_pad(s_root, 132, 84, x, &font_icons_36, icon("next_s"), on_next, nullptr);
-  x += 132 + g;
-  s_btn_repeat = toggle_pad(s_root, 96, 72, x, icon("repeat"), "REPEAT", on_repeat);
+  x += 160 + g;
+  s_btn_next = icon_pad(s_root, 104, 84, x, &font_icons_36, icon("next_s"), on_next, nullptr);
+  x += 104 + g;
+  s_btn_ff = toggle_pad(s_root, 80, 72, x, icon("ff"), "10 S", on_ff);
+  x += 80 + g;
+  s_btn_repeat = toggle_pad(s_root, 76, 72, x, icon("repeat"), "REPEAT", on_repeat);
 }
 
 void music_page_build(lv_obj_t *tile) {
@@ -623,6 +656,11 @@ void music_page_update(const Model &m, bool agent_ok) {
   render_art();
   style_toggle(s_btn_shuffle, n.shuffle, icon("shuffle"));
   style_toggle(s_btn_repeat, n.repeat, n.repeat == 1 ? icon("repeat_one") : icon("repeat"));
+  lv_obj_t *seekers[] = {s_btn_rew, s_btn_ff};
+  for (lv_obj_t *b : seekers) { /* seeking needs the song's length */
+    if (n.dur_s > 0) lv_obj_remove_flag(b, LV_OBJ_FLAG_HIDDEN);
+    else lv_obj_add_flag(b, LV_OBJ_FLAG_HIDDEN);
+  }
   render_play();
   render_heart();
   render_volume();

@@ -1,7 +1,8 @@
 # 5. Music
 
 The **MUSIC** page shows what your computer is playing — cover, title, artist, a progress
-bar you can drag to seek, and big controls: shuffle, previous, play/pause, next, repeat.
+bar you can drag to seek, and big controls: shuffle, ⏪ 10 s, previous, play/pause, next,
+⏩ 10 s, repeat. Hold ⏪ to replay the song from the start.
 At the top it names the player (*Spotify*, *Chrome*, *VLC*…) with a dot in its colour,
 dimmed while paused.
 

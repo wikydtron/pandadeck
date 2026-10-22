@@ -75,6 +75,7 @@ ICONS = (
     ("unlock", "lock_open"),              ("car", "directions_car"),
     ("sync", "sync"),                     ("pin", "place"),
     ("heart", "favorite_border"),         ("heart_s", "favorite"),
+    ("rew", "fast_rewind"),               ("ff", "fast_forward"),
 )
 ICON_SECTIONS = {  # comment emitted in icon_map.h before the named entry
     "play_s": "media: solid transport set for the MUSIC page (also in font_icons_52)",

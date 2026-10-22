@@ -78,4 +78,6 @@ static IconDef ICONS[] = {
     /* MUSIC page like button: outline / filled */
     {"heart", 0xE87E, {}},        /* favorite_border */
     {"heart_s", 0xE87D, {}},      /* favorite */
+    {"rew", 0xE020, {}},          /* fast_rewind */
+    {"ff", 0xE01F, {}},           /* fast_forward */
 };

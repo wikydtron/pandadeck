@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.7
+
+- MUSIC page: ⏪ / ⏩ pads jump 10 s back or forward; hold ⏪ to replay the song from the start.
+  They appear whenever the player reports the song's length.
+
 ## 0.6.6
 
 - MUSIC page: a volume slider for your computer's output (tap the speaker to mute), on
