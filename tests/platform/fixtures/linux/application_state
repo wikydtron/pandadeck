@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<application-state>
+  <context id="">
+    <application id="snapd-desktop-integration_snapd-desktop-integration.desktop" score="0" last-seen="1700000000"/>
+    <application id="firefox_firefox.desktop" score="5000.5" last-seen="1700500000"/>
+    <application id="google-chrome.desktop" score="12.25" last-seen="1700400000"/>
+    <application id="com.obsproject.Studio.desktop" score="0.25" last-seen="1700300000"/>
+    <application id="update-manager.desktop" score="0" last-seen="1700100000"/>
+  </context>
+</application-state>

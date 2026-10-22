@@ -1,0 +1,694 @@
+{
+ "_comment": "Built-in deck pages per OS (keys: grammar in firmware/PandaDeck/deck_action.h; GUI = Windows key / Cmd / Super) and agent:launch:<name> targets.",
+ "pages": {
+  "media": {
+   "windows": {
+    "name": "MEDIA",
+    "color": "#C084FC",
+    "buttons": [
+     {
+      "label": "Prev",
+      "icon": "prev",
+      "action": "media:prev"
+     },
+     {
+      "label": "Play",
+      "icon": "play",
+      "action": "media:playpause"
+     },
+     {
+      "label": "Next",
+      "icon": "next",
+      "action": "media:next"
+     },
+     {
+      "label": "Mute",
+      "icon": "mute",
+      "action": "media:mute"
+     },
+     {
+      "label": "Vol -",
+      "icon": "vol_down",
+      "action": "media:voldown"
+     },
+     {
+      "label": "Vol +",
+      "icon": "vol_up",
+      "action": "media:volup"
+     },
+     {
+      "label": "Mic",
+      "icon": "mic",
+      "action": "agent:mic"
+     },
+     {
+      "label": "Spotify",
+      "icon": "audio",
+      "action": "agent:launch:spotify"
+     },
+     {
+      "label": "Snip",
+      "icon": "image",
+      "action": "keys:GUI+SHIFT+S"
+     },
+     {
+      "label": "Desktop",
+      "icon": "home",
+      "action": "keys:GUI+D"
+     },
+     {
+      "label": "Task Mgr",
+      "icon": "list",
+      "action": "keys:CTRL+SHIFT+ESC"
+     },
+     {
+      "label": "Lock",
+      "icon": "lock",
+      "action": "keys:GUI+L"
+     }
+    ]
+   },
+   "macos": {
+    "name": "MEDIA",
+    "color": "#C084FC",
+    "buttons": [
+     {
+      "label": "Prev",
+      "icon": "prev",
+      "action": "media:prev"
+     },
+     {
+      "label": "Play",
+      "icon": "play",
+      "action": "media:playpause"
+     },
+     {
+      "label": "Next",
+      "icon": "next",
+      "action": "media:next"
+     },
+     {
+      "label": "Mute",
+      "icon": "mute",
+      "action": "media:mute"
+     },
+     {
+      "label": "Vol -",
+      "icon": "vol_down",
+      "action": "media:voldown"
+     },
+     {
+      "label": "Vol +",
+      "icon": "vol_up",
+      "action": "media:volup"
+     },
+     {
+      "label": "Mic",
+      "icon": "mic",
+      "action": "agent:mic"
+     },
+     {
+      "label": "Spotify",
+      "icon": "audio",
+      "action": "agent:launch:spotify"
+     },
+     {
+      "label": "Snip",
+      "icon": "image",
+      "action": "keys:GUI+SHIFT+4"
+     },
+     {
+      "label": "Desktop",
+      "icon": "home",
+      "action": "keys:F11"
+     },
+     {
+      "label": "Activity",
+      "icon": "list",
+      "action": "agent:launch:taskmgr"
+     },
+     {
+      "label": "Lock",
+      "icon": "lock",
+      "action": "keys:CTRL+GUI+Q"
+     }
+    ]
+   },
+   "linux": {
+    "name": "MEDIA",
+    "color": "#C084FC",
+    "buttons": [
+     {
+      "label": "Prev",
+      "icon": "prev",
+      "action": "media:prev"
+     },
+     {
+      "label": "Play",
+      "icon": "play",
+      "action": "media:playpause"
+     },
+     {
+      "label": "Next",
+      "icon": "next",
+      "action": "media:next"
+     },
+     {
+      "label": "Mute",
+      "icon": "mute",
+      "action": "media:mute"
+     },
+     {
+      "label": "Vol -",
+      "icon": "vol_down",
+      "action": "media:voldown"
+     },
+     {
+      "label": "Vol +",
+      "icon": "vol_up",
+      "action": "media:volup"
+     },
+     {
+      "label": "Mic",
+      "icon": "mic",
+      "action": "agent:mic"
+     },
+     {
+      "label": "Spotify",
+      "icon": "audio",
+      "action": "agent:launch:spotify"
+     },
+     {
+      "label": "Snip",
+      "icon": "image",
+      "action": "keys:PRTSC"
+     },
+     {
+      "label": "Desktop",
+      "icon": "home",
+      "action": "keys:GUI+D"
+     },
+     {
+      "label": "Monitor",
+      "icon": "list",
+      "action": "agent:launch:taskmgr"
+     },
+     {
+      "label": "Lock",
+      "icon": "lock",
+      "action": "keys:GUI+L"
+     }
+    ]
+   }
+  },
+  "windows": {
+   "windows": {
+    "name": "WINDOWS",
+    "color": "#60A5FA",
+    "buttons": [
+     {
+      "label": "Snap L",
+      "icon": "left",
+      "action": "keys:GUI+LEFT"
+     },
+     {
+      "label": "Snap R",
+      "icon": "right",
+      "action": "keys:GUI+RIGHT"
+     },
+     {
+      "label": "Maximize",
+      "icon": "up",
+      "action": "keys:GUI+UP"
+     },
+     {
+      "label": "Minimize",
+      "icon": "down",
+      "action": "keys:GUI+DOWN"
+     },
+     {
+      "label": "Task View",
+      "icon": "taskview",
+      "action": "keys:GUI+TAB"
+     },
+     {
+      "label": "Explorer",
+      "icon": "folder",
+      "action": "keys:GUI+E"
+     },
+     {
+      "label": "Clipboard",
+      "icon": "paste",
+      "action": "keys:GUI+V"
+     },
+     {
+      "label": "Emoji",
+      "icon": "smile",
+      "action": "keys:GUI+PERIOD"
+     },
+     {
+      "label": "Settings",
+      "icon": "settings",
+      "action": "keys:GUI+I"
+     },
+     {
+      "label": "Run",
+      "icon": "go",
+      "action": "keys:GUI+R"
+     },
+     {
+      "label": "Alt-Tab",
+      "icon": "loop",
+      "action": "keys:ALT+TAB"
+     },
+     {
+      "label": "Close",
+      "icon": "close",
+      "action": "keys:ALT+F4"
+     }
+    ]
+   },
+   "macos": {
+    "name": "WINDOWS",
+    "color": "#60A5FA",
+    "buttons": [
+     {
+      "label": "Mission",
+      "icon": "taskview",
+      "action": "keys:CTRL+UP"
+     },
+     {
+      "label": "App Windows",
+      "icon": "apps",
+      "action": "keys:CTRL+DOWN"
+     },
+     {
+      "label": "Full Screen",
+      "icon": "up",
+      "action": "keys:CTRL+GUI+F"
+     },
+     {
+      "label": "Minimize",
+      "icon": "down",
+      "action": "keys:GUI+M"
+     },
+     {
+      "label": "Hide",
+      "icon": "close",
+      "action": "keys:GUI+H"
+     },
+     {
+      "label": "Finder",
+      "icon": "folder",
+      "action": "agent:launch:files"
+     },
+     {
+      "label": "Spotlight",
+      "icon": "search",
+      "action": "keys:GUI+SPACE"
+     },
+     {
+      "label": "Emoji",
+      "icon": "smile",
+      "action": "keys:CTRL+GUI+SPACE"
+     },
+     {
+      "label": "Settings",
+      "icon": "settings",
+      "action": "agent:launch:settings"
+     },
+     {
+      "label": "Switch App",
+      "icon": "loop",
+      "action": "keys:GUI+TAB"
+     },
+     {
+      "label": "Close Win",
+      "icon": "close",
+      "action": "keys:GUI+W"
+     },
+     {
+      "label": "Quit App",
+      "icon": "power",
+      "action": "keys:GUI+Q"
+     }
+    ]
+   },
+   "linux": {
+    "name": "WINDOWS",
+    "color": "#60A5FA",
+    "buttons": [
+     {
+      "label": "Snap L",
+      "icon": "left",
+      "action": "keys:GUI+LEFT"
+     },
+     {
+      "label": "Snap R",
+      "icon": "right",
+      "action": "keys:GUI+RIGHT"
+     },
+     {
+      "label": "Maximize",
+      "icon": "up",
+      "action": "keys:GUI+UP"
+     },
+     {
+      "label": "Minimize",
+      "icon": "down",
+      "action": "keys:GUI+H"
+     },
+     {
+      "label": "Overview",
+      "icon": "taskview",
+      "action": "keys:GUI"
+     },
+     {
+      "label": "Files",
+      "icon": "folder",
+      "action": "agent:launch:files"
+     },
+     {
+      "label": "Terminal",
+      "icon": "terminal",
+      "action": "keys:CTRL+ALT+T"
+     },
+     {
+      "label": "Run",
+      "icon": "go",
+      "action": "keys:ALT+F2"
+     },
+     {
+      "label": "Settings",
+      "icon": "settings",
+      "action": "agent:launch:settings"
+     },
+     {
+      "label": "Alt-Tab",
+      "icon": "loop",
+      "action": "keys:ALT+TAB"
+     },
+     {
+      "label": "Lock",
+      "icon": "lock",
+      "action": "keys:GUI+L"
+     },
+     {
+      "label": "Close",
+      "icon": "close",
+      "action": "keys:ALT+F4"
+     }
+    ]
+   }
+  },
+  "dev": {
+   "windows": {
+    "name": "DEV",
+    "color": "#D97757",
+    "buttons": [
+     {
+      "label": "Terminal",
+      "icon": "terminal",
+      "action": "agent:launch:terminal"
+     },
+     {
+      "label": "Files",
+      "icon": "folder",
+      "action": "agent:launch:files"
+     },
+     {
+      "label": "Copy",
+      "icon": "copy",
+      "action": "keys:CTRL+C"
+     },
+     {
+      "label": "Cut",
+      "icon": "cut",
+      "action": "keys:CTRL+X"
+     },
+     {
+      "label": "Paste",
+      "icon": "paste",
+      "action": "keys:CTRL+V"
+     },
+     {
+      "label": "Undo",
+      "icon": "undo",
+      "action": "keys:CTRL+Z"
+     },
+     {
+      "label": "Redo",
+      "icon": "redo",
+      "action": "keys:CTRL+Y"
+     },
+     {
+      "label": "Save",
+      "icon": "save",
+      "action": "keys:CTRL+S"
+     },
+     {
+      "label": "Find",
+      "icon": "search",
+      "action": "keys:CTRL+F"
+     },
+     {
+      "label": "Select All",
+      "icon": "check",
+      "action": "keys:CTRL+A"
+     },
+     {
+      "label": "Esc",
+      "icon": "close",
+      "action": "keys:ESC"
+     },
+     {
+      "label": "Enter",
+      "icon": "enter",
+      "action": "keys:ENTER"
+     }
+    ]
+   },
+   "macos": {
+    "name": "DEV",
+    "color": "#D97757",
+    "buttons": [
+     {
+      "label": "Terminal",
+      "icon": "terminal",
+      "action": "agent:launch:terminal"
+     },
+     {
+      "label": "Files",
+      "icon": "folder",
+      "action": "agent:launch:files"
+     },
+     {
+      "label": "Copy",
+      "icon": "copy",
+      "action": "keys:GUI+C"
+     },
+     {
+      "label": "Cut",
+      "icon": "cut",
+      "action": "keys:GUI+X"
+     },
+     {
+      "label": "Paste",
+      "icon": "paste",
+      "action": "keys:GUI+V"
+     },
+     {
+      "label": "Undo",
+      "icon": "undo",
+      "action": "keys:GUI+Z"
+     },
+     {
+      "label": "Redo",
+      "icon": "redo",
+      "action": "keys:GUI+SHIFT+Z"
+     },
+     {
+      "label": "Save",
+      "icon": "save",
+      "action": "keys:GUI+S"
+     },
+     {
+      "label": "Find",
+      "icon": "search",
+      "action": "keys:GUI+F"
+     },
+     {
+      "label": "Select All",
+      "icon": "check",
+      "action": "keys:GUI+A"
+     },
+     {
+      "label": "Esc",
+      "icon": "close",
+      "action": "keys:ESC"
+     },
+     {
+      "label": "Enter",
+      "icon": "enter",
+      "action": "keys:ENTER"
+     }
+    ]
+   },
+   "linux": {
+    "name": "DEV",
+    "color": "#D97757",
+    "buttons": [
+     {
+      "label": "Terminal",
+      "icon": "terminal",
+      "action": "agent:launch:terminal"
+     },
+     {
+      "label": "Files",
+      "icon": "folder",
+      "action": "agent:launch:files"
+     },
+     {
+      "label": "Copy",
+      "icon": "copy",
+      "action": "keys:CTRL+C"
+     },
+     {
+      "label": "Cut",
+      "icon": "cut",
+      "action": "keys:CTRL+X"
+     },
+     {
+      "label": "Paste",
+      "icon": "paste",
+      "action": "keys:CTRL+V"
+     },
+     {
+      "label": "Undo",
+      "icon": "undo",
+      "action": "keys:CTRL+Z"
+     },
+     {
+      "label": "Redo",
+      "icon": "redo",
+      "action": "keys:CTRL+SHIFT+Z"
+     },
+     {
+      "label": "Save",
+      "icon": "save",
+      "action": "keys:CTRL+S"
+     },
+     {
+      "label": "Find",
+      "icon": "search",
+      "action": "keys:CTRL+F"
+     },
+     {
+      "label": "Select All",
+      "icon": "check",
+      "action": "keys:CTRL+A"
+     },
+     {
+      "label": "Esc",
+      "icon": "close",
+      "action": "keys:ESC"
+     },
+     {
+      "label": "Enter",
+      "icon": "enter",
+      "action": "keys:ENTER"
+     }
+    ]
+   }
+  },
+  "macros": {
+   "name": "MACROS",
+   "color": "#34D399",
+   "buttons": [
+    {
+     "label": "F13",
+     "icon": "bolt",
+     "action": "keys:F13"
+    },
+    {
+     "label": "F14",
+     "icon": "bolt",
+     "action": "keys:F14"
+    },
+    {
+     "label": "F15",
+     "icon": "bolt",
+     "action": "keys:F15"
+    },
+    {
+     "label": "F16",
+     "icon": "bolt",
+     "action": "keys:F16"
+    },
+    {
+     "label": "F17",
+     "icon": "bolt",
+     "action": "keys:F17"
+    },
+    {
+     "label": "F18",
+     "icon": "bolt",
+     "action": "keys:F18"
+    },
+    {
+     "label": "F19",
+     "icon": "bolt",
+     "action": "keys:F19"
+    },
+    {
+     "label": "F20",
+     "icon": "bolt",
+     "action": "keys:F20"
+    },
+    {
+     "label": "F21",
+     "icon": "bolt",
+     "action": "keys:F21"
+    },
+    {
+     "label": "F22",
+     "icon": "bolt",
+     "action": "keys:F22"
+    },
+    {
+     "label": "F23",
+     "icon": "bolt",
+     "action": "keys:F23"
+    },
+    {
+     "label": "F24",
+     "icon": "bolt",
+     "action": "keys:F24"
+    }
+   ]
+  }
+ },
+ "launch": {
+  "windows": {
+   "spotify": "uri:spotify:",
+   "terminal": "exe:wt.exe|powershell.exe|cmd.exe",
+   "files": "exe:explorer.exe",
+   "taskmgr": "exe:taskmgr.exe",
+   "settings": "uri:ms-settings:"
+  },
+  "macos": {
+   "spotify": "uri:spotify:",
+   "terminal": "app:/System/Applications/Utilities/Terminal.app",
+   "files": "app:/System/Library/CoreServices/Finder.app",
+   "taskmgr": "app:/System/Applications/Utilities/Activity Monitor.app",
+   "settings": "app:/System/Applications/System Settings.app"
+  },
+  "linux": {
+   "spotify": "uri:spotify:",
+   "terminal": "exe:x-terminal-emulator|gnome-terminal|konsole|xfce4-terminal|xterm",
+   "files": "dir:~",
+   "taskmgr": "exe:gnome-system-monitor|plasma-systemmonitor|ksysguard|xfce4-taskmanager",
+   "settings": "exe:gnome-control-center|systemsettings|xfce4-settings-manager"
+  }
+ }
+}

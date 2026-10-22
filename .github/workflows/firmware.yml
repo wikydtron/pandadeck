@@ -1,0 +1,66 @@
+name: firmware
+
+on:
+  push:
+    branches: [main]
+    paths: ["firmware/**", "pio/**", "tools/fetch_tinyusb.py", "tests/*.cpp", "tests/stubs/**",
+            "tests/run_host_tests.sh", ".github/workflows/firmware.yml"]
+    tags: ["v*"]
+  pull_request:
+    paths: ["firmware/**", "pio/**", "tests/*.cpp", "tests/stubs/**"]
+  workflow_dispatch:
+
+permissions:
+  contents: write  # attach firmware.bin to releases
+
+jobs:
+  host-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch ArduinoJson for the host build
+        run: git clone --depth 1 --branch v7.4.2 https://github.com/bblanchon/ArduinoJson.git firmware/libraries/ArduinoJson
+      - name: Model, protocol and icon store tests (host g++)
+        run: |
+          FLAGS="-std=c++17 -O1 -Wall -Wextra -I firmware/PandaDeck -I firmware/libraries/ArduinoJson/src"
+          g++ $FLAGS tests/model_tests.cpp firmware/PandaDeck/model.cpp firmware/PandaDeck/deck_action.cpp -o model_tests
+          ./model_tests tests/fixtures/snapshot.json
+          g++ $FLAGS tests/link_tests.cpp firmware/PandaDeck/link_codec.cpp firmware/PandaDeck/proto.cpp -o link_tests
+          ./link_tests
+          g++ $FLAGS -I tests/stubs tests/icon_store_tests.cpp firmware/PandaDeck/icon_store.cpp -o icon_store_tests
+          ./icon_store_tests
+
+  build:
+    runs-on: ubuntu-latest
+    needs: host-tests
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.platformio
+            pio/.pio/libdeps
+          key: pio-${{ hashFiles('pio/platformio.ini') }}
+      - name: Install PlatformIO
+        run: pip install -U platformio
+      - name: Fetch the arduino_tinyusb component
+        run: python tools/fetch_tinyusb.py
+      - name: Build
+        run: pio run -d pio -e pandadeck
+      - name: Collect
+        run: |
+          mkdir -p dist
+          cp pio/.pio/build/pandadeck/firmware.bin dist/pandadeck-firmware.bin
+          cp pio/.pio/build/pandadeck/firmware.factory.bin dist/pandadeck-firmware-factory.bin 2>/dev/null || true
+          (cd dist && sha256sum *.bin > SHA256SUMS.txt)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pandadeck-firmware
+          path: dist/*
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*

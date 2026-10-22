@@ -1,0 +1,120 @@
+{
+ "t": 1792523303,
+ "sessions": [
+  {
+   "id": "abc",
+   "proj": "PandaDeck",
+   "title": "Panda Touch firmware",
+   "act": "Bash: npm test",
+   "host": "desktop",
+   "model": "opus 5.5",
+   "st": "work",
+   "age": 3,
+   "dur": 720,
+   "src": "claude"
+  },
+  {
+   "id": "def",
+   "proj": "weather-app",
+   "title": "",
+   "act": "Done: flashed",
+   "host": "desktop",
+   "model": "",
+   "st": "wait",
+   "age": 40,
+   "dur": 3600,
+   "src": "codex"
+  }
+ ],
+ "perms": [
+  {
+   "id": "p1a2b3c4",
+   "sid": "abc",
+   "proj": "PandaDeck",
+   "host": "desktop",
+   "tool": "Bash",
+   "detail": "rm -rf build\n\n# Clean the build dir",
+   "age": 5,
+   "src": "claude"
+  }
+ ],
+ "usage": {
+  "ok": true,
+  "s5h": 15.0,
+  "s5h_reset": 6696,
+  "week": 68.0,
+  "week_reset": 431496,
+  "codex_week": 2.0,
+  "codex_reset": 568552
+ },
+ "pc": {
+  "name": "Ryzen 7 7700X  •  RTX 4070",
+  "cpu": 12.5,
+  "ram": 54.2,
+  "disk": 71.0,
+  "down": 1.25,
+  "up": 0.31,
+  "cpu_t": -1,
+  "gpu": 4,
+  "gpu_t": 57,
+  "gpu_w": 29.8,
+  "vram": 39.5,
+  "mic_muted": true,
+  "vol": 40
+ },
+ "lab": {
+  "ok": true,
+  "cpu": 23.3,
+  "ram": 75.6,
+  "temp": 60,
+  "gpu": 23,
+  "gpu_t": 48,
+  "disk": 85,
+  "run": 12,
+  "total": 14,
+  "healthy": 10,
+  "backup_h": 6.0,
+  "bad": [
+   {
+    "id": "dddddddddddd",
+    "name": "flaky",
+    "state": "running",
+    "health": "unhealthy",
+    "cpu": 50.0,
+    "mem": 1.0
+   }
+  ],
+  "top": [
+   {
+    "id": "eeeeeeeeeeee",
+    "name": "webapp",
+    "state": "running",
+    "health": "",
+    "cpu": 35.1,
+    "mem": 4.2
+   }
+  ]
+ },
+ "deck": {
+  "rev": 268435457,
+  "pages": [
+   {
+    "name": "TEST",
+    "color": "#34D399",
+    "buttons": [
+     {
+      "label": "Desk",
+      "icon": "home",
+      "action": "keys:GUI+D"
+     },
+     {
+      "label": "Play",
+      "icon": "play",
+      "action": "media:playpause",
+      "color": "#C084FC"
+     }
+    ]
+   }
+  ]
+ }
+}

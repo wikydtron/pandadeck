@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>PandaDeck</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+<script src="/app.js" defer></script>
+<script src="/deck.js" defer></script>
+<script src="/lab.js" defer></script>
+<script src="/sounds.js" defer></script>
+<script src="/works.js" defer></script>
+<script src="/aiicons.js" defer></script>
+</head>
+<body>
+<div class="shell">
+  <aside class="rail">
+    <a class="brand" href="#panel"><img src="/logo.svg" alt=""><div><b>PandaDeck</b><small>Desk companion settings</small></div></a>
+    <nav class="nav" id="nav">
+      <a href="#panel"><span class="num">01</span>Panel<i class="dot" id="nav-dot-panel"></i></a>
+      <a href="#pages"><span class="num">02</span>Pages</a>
+      <a href="#deck"><span class="num">03</span>Deck<i class="dot" id="nav-dot-deck"></i></a>
+      <a href="#music"><span class="num">04</span>Music<i class="dot" id="nav-dot-music"></i></a>
+      <a href="#ai"><span class="num">05</span>AI<i class="dot" id="nav-dot-ai"></i></a>
+      <a href="#hud"><span class="num">06</span>HUD<i class="dot" id="nav-dot-hud"></i></a>
+      <a href="#startup"><span class="num">07</span>Startup</a>
+    </nav>
+    <div class="rail-status" id="rail-status"></div>
+    <div class="rail-foot">
+      <a class="support" href="https://paypal.me/theboss3dfactory" target="_blank" rel="noopener noreferrer"
+         title="PandaDeck is free. If it's useful to you, a tip keeps it going.">♥ Support PandaDeck</a>
+      <span id="foot-version">PandaDeck</span>
+      <button class="ghost small" id="open-config" type="button">Open settings folder</button>
+    </div>
+  </aside>
+
+  <main id="main">
+    <div class="banner note err" id="offline" hidden>The PandaDeck app isn't answering. Is it still running?</div>
+    <div class="banner note warn" id="platform-warn" hidden></div>
+
+    <!-- 01 PANEL -->
+    <section class="section" id="panel">
+      <header class="sec-head">
+        <span class="eyebrow">01 &mdash; Panel</span>
+        <h2>Your Panda Touch</h2>
+        <p>The app finds the panel by itself over USB-C, and falls back to Wi-Fi when the cable isn't plugged in.</p>
+      </header>
+      <div class="stack">
+        <div class="card" id="panel-hero"></div>
+        <div class="card accent" id="install-card" hidden></div>
+        <div class="grid-2">
+          <div class="card" id="display-card"></div>
+          <div class="card" id="wifi-card"></div>
+        </div>
+        <div class="card" id="firmware-card"></div>
+      </div>
+    </section>
+
+    <!-- 02 PAGES -->
+    <section class="section" id="pages">
+      <header class="sec-head">
+        <span class="eyebrow">02 &mdash; Pages</span>
+        <h2>What the panel shows</h2>
+        <p>Turn pages on or off and drag them into the order you like. The tabs on the panel follow this list.</p>
+      </header>
+      <div class="card"><div class="plist" id="page-list"></div></div>
+    </section>
+
+    <!-- 03 DECK -->
+    <section class="section" id="deck">
+      <header class="sec-head">
+        <span class="eyebrow">03 &mdash; Deck</span>
+        <h2>Buttons and apps</h2>
+        <p>The DECK page is a touch stream deck. Put your apps, files, folders and websites on it, record keyboard macros, and choose which pages of buttons it shows.</p>
+      </header>
+      <div class="stack">
+        <div class="card" id="style-card"></div>
+        <div class="card" id="apps-card"></div>
+        <div class="card accent" id="macros-card"></div>
+        <div class="card" id="sounds-card"></div>
+        <div class="card" id="dpages-card"></div>
+        <div class="card" id="custom-card"></div>
+      </div>
+    </section>
+
+    <!-- 04 MUSIC -->
+    <section class="section" id="music">
+      <header class="sec-head">
+        <span class="eyebrow">04 &mdash; Music</span>
+        <h2>Now playing</h2>
+        <p>The MUSIC page shows what this computer plays, with the cover or the artist's photo, a progress bar you can drag and big controls. Signing in to Spotify is optional: it adds reliable shuffle / repeat and control of Spotify on your other devices.</p>
+      </header>
+      <div class="stack">
+        <div class="card" id="np-card"></div>
+        <div class="card spotify-card" id="spotify-help"></div>
+        <div class="card" id="source-card"></div>
+      </div>
+    </section>
+
+    <!-- 05 AI -->
+    <section class="section" id="ai">
+      <header class="sec-head">
+        <span class="eyebrow">05 &mdash; AI <span class="tag">optional</span></span>
+        <h2>Mission control for coding agents</h2>
+        <p>If you use Claude Code or Codex, the panel can show live sessions, your usage limits, and a big Approve / Deny when an agent asks for permission. Nothing here is on until you turn it on.</p>
+        <p class="hint">&#10024; Generate with AI (button pictures, in the Deck editor) also uses them: your own Claude Code or Codex sign-in on this computer and your subscription, nothing else. Those runs never show up here.</p>
+      </header>
+      <div class="stack">
+        <div class="card" id="ai-page-card"></div>
+        <div class="card" id="hooks-card"></div>
+        <div class="card" id="usage-card"></div>
+      </div>
+    </section>
+
+    <!-- 06 HUD -->
+    <section class="section" id="hud">
+      <header class="sec-head">
+        <span class="eyebrow">06 &mdash; HUD</span>
+        <h2>Live stats</h2>
+        <p>This computer's numbers show up automatically. Add a home server (Linux, macOS or Windows) if you have one.</p>
+      </header>
+      <div class="stack">
+        <div class="card" id="pc-card"></div>
+        <div class="card" id="lab-card"></div>
+        <div class="card" id="labhelp-card"></div>
+      </div>
+    </section>
+
+    <!-- 07 STARTUP -->
+    <section class="section" id="startup">
+      <header class="sec-head">
+        <span class="eyebrow">07 &mdash; Startup</span>
+        <h2>Always ready</h2>
+        <p>PandaDeck runs quietly in the background. Start it with your computer so the panel is alive the moment you sit down.</p>
+      </header>
+      <div class="card" id="startup-card"></div>
+    </section>
+
+  </main>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<dialog id="dlg-confirm">
+  <form method="dialog">
+    <h3 id="confirm-title"></h3>
+    <p id="confirm-text" class="hint"></p>
+    <div class="actions">
+      <button value="cancel" type="submit" class="ghost">Cancel</button>
+      <button value="ok" type="submit" class="primary" id="confirm-ok">OK</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-button">
+  <form method="dialog" id="btn-form">
+    <h3 id="b-title">Button</h3>
+    <div class="editor-top">
+      <div class="preview-tile" id="b-preview"></div>
+      <div class="stack">
+        <label class="field"><span>Label (up to 19 letters)</span><input type="text" id="b-label" maxlength="19" autocomplete="off"></label>
+        <div class="inline">
+          <button type="button" class="small" id="b-pic-btn">Upload picture&hellip;</button>
+          <button type="button" class="small ghost" id="b-pic-remove" hidden>Remove picture</button>
+          <button type="button" class="small" id="b-ai-btn" hidden>&#10024; Generate with AI</button>
+          <input type="file" id="b-pic-file" accept=".png,.jpg,.jpeg,.webp,.ico,.bmp,image/*" hidden>
+        </div>
+      </div>
+    </div>
+    <div class="ai-gen" id="b-ai" hidden>
+      <div class="inline">
+        <span id="b-ai-engines"></span>
+        <input type="text" id="b-ai-style" maxlength="80" placeholder="Style (optional): pixel art, cartoon, neon&hellip;" autocomplete="off">
+        <button type="button" class="small primary" id="b-ai-go">Generate</button>
+      </div>
+      <p class="hint" id="b-ai-msg"></p>
+      <div class="art-choices" id="b-ai-previews"></div>
+    </div>
+    <div class="field" id="b-kind-f"><span>What it does</span>
+      <div class="seg" id="b-kind">
+        <label><input type="radio" name="bkind" value="keys"><span>Keys</span></label>
+        <label><input type="radio" name="bkind" value="media"><span>Media</span></label>
+        <label><input type="radio" name="bkind" value="app"><span>App</span></label>
+        <label><input type="radio" name="bkind" value="target"><span>File, folder, website</span></label>
+        <label><input type="radio" name="bkind" value="sound"><span>Sound</span></label>
+        <label><input type="radio" name="bkind" value="pd"><span>PandaDeck</span></label>
+        <label><input type="radio" name="bkind" value="agent"><span>Advanced</span></label>
+      </div>
+    </div>
+    <div class="field" id="b-keys-f">
+      <span>Key combination (up to 6 keys)</span>
+      <div class="inline">
+        <input type="text" id="b-keys" class="mono" autocomplete="off" spellcheck="false" placeholder="CTRL+SHIFT+F13">
+        <button type="button" class="small" id="b-record">Record</button>
+      </div>
+      <p class="hint" id="b-record-hint">Click Record, then press the keys together. Some combos the browser keeps for itself (like Ctrl+W): type those instead.</p>
+      <div class="chips" id="b-fkeys"></div>
+    </div>
+    <label class="field" id="b-media-f"><span>Media key</span><select id="b-media"></select></label>
+    <label class="field" id="b-app-f"><span>App</span><select id="b-app"></select></label>
+    <label class="field" id="b-pd-f"><span>PandaDeck action</span><select id="b-pd"></select></label>
+    <div class="field" id="b-sound-f">
+      <span>Sound</span>
+      <select id="b-sound" aria-label="Which sound"></select>
+      <div class="inline sound-file">
+        <button type="button" class="small" id="b-splay">&#9654; Play</button>
+        <span class="hint" id="b-sfile"></span>
+      </div>
+      <div class="inline">
+        <button type="button" class="small" id="b-supload">Upload sound&hellip;</button>
+        <button type="button" class="small" id="b-slink-btn">Replace from link&hellip;</button>
+        <button type="button" class="small ghost" id="b-sreset">Reset to default sound</button>
+        <input type="file" id="b-sound-file" accept=".wav,.mp3,.ogg,.m4a,audio/wav,audio/mpeg,audio/ogg,audio/mp4" hidden>
+      </div>
+      <div class="slink" id="b-slink" hidden>
+        <div class="inline">
+          <input type="url" id="b-slink-url" class="mono" placeholder="https://&hellip; a sound's page, or a direct .mp3 link" autocomplete="off" spellcheck="false">
+          <button type="button" class="small primary" id="b-slink-go">Get it</button>
+        </div>
+        <p class="hint" id="b-slink-msg">Paste the link of a sound's page (for example on myinstants.com) or of the sound file itself.</p>
+      </div>
+      <div class="art" id="b-art" hidden>
+        <div class="inline">
+          <span class="hint" id="b-art-status"></span>
+          <button type="button" class="small ghost" id="b-art-find">Find new picture</button>
+          <button type="button" class="small ghost" id="b-art-choose">Choose picture&hellip;</button>
+        </div>
+        <div class="art-choices" id="b-art-choices" hidden></div>
+      </div>
+      <label class="inline svol" id="b-svol-row"><span class="hint">Volume</span><input type="range" id="b-svol" min="0" max="100" step="5"><b id="b-svol-v" class="mono"></b></label>
+    </div>
+    <div class="field" id="b-target-f">
+      <span>Open</span>
+      <div class="seg" id="b-tkind">
+        <label><input type="radio" name="btkind" value="file"><span>A file</span></label>
+        <label><input type="radio" name="btkind" value="folder"><span>A folder</span></label>
+        <label><input type="radio" name="btkind" value="url"><span>A website</span></label>
+      </div>
+      <div class="inline">
+        <input type="text" id="b-tvalue" class="mono" autocomplete="off" spellcheck="false">
+        <button type="button" class="small" id="b-tbrowse">Browse&hellip;</button>
+      </div>
+      <p class="note warn" id="b-twarn" hidden>This button runs that file (a program or script) when you tap it.</p>
+    </div>
+    <label class="field" id="b-agent-f"><span>Raw action (keys:… media:… agent:…)</span><input type="text" id="b-agent" class="mono" autocomplete="off" spellcheck="false"></label>
+    <div class="field" id="b-icons-f"><span>Symbol (shown when there is no picture)</span><div class="iconpick" id="b-icons"></div></div>
+    <div class="field"><span>Colour</span><div class="inline" id="b-colors"></div></div>
+    <p class="hint err-text" id="b-err"></p>
+    <div class="actions">
+      <button type="button" class="danger left" id="b-delete">Remove</button>
+      <button value="cancel" type="submit" class="ghost" formnovalidate>Cancel</button>
+      <button value="save" type="submit" class="primary" id="b-save">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-target">
+  <form method="dialog" id="t-form">
+    <h3>Add a file, folder or website</h3>
+    <div class="seg" id="t-kind">
+      <label><input type="radio" name="tkind" value="url" checked><span>Website</span></label>
+      <label><input type="radio" name="tkind" value="file"><span>File</span></label>
+      <label><input type="radio" name="tkind" value="folder"><span>Folder</span></label>
+    </div>
+    <label class="field"><span id="t-value-label">Website address</span><input type="text" id="t-value" class="mono" autocomplete="off" spellcheck="false" placeholder="https://"></label>
+    <label class="field"><span>Label (optional)</span><input type="text" id="t-label" maxlength="19" autocomplete="off"></label>
+    <p class="hint err-text" id="t-err"></p>
+    <div class="actions">
+      <button value="cancel" type="submit" class="ghost" formnovalidate>Cancel</button>
+      <button value="save" type="submit" class="primary">Add</button>
+    </div>
+  </form>
+</dialog>
+</body>
+</html>

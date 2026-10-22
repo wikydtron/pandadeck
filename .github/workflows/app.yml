@@ -1,0 +1,88 @@
+name: app
+
+on:
+  push:
+    branches: [main]
+    paths: ["app/**", "tests/**", ".github/workflows/app.yml"]
+    tags: ["v*"]
+  pull_request:
+    paths: ["app/**", "tests/**", ".github/workflows/app.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write  # attach the app bundles to releases
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install the app + test deps
+        run: |
+          python -m pip install -U pip
+          python -m pip install ./app pytest
+      - name: Tests
+        run: python -m pytest -q tests/app tests/platform
+
+
+  build:
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    needs:
+      - test
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: windows-latest, name: windows}
+          - {os: macos-latest, name: macos}
+          - {os: ubuntu-latest, name: linux}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Install
+        run: python -m pip install "./app[tray,mdns,ai-icons]" "pyinstaller>=6.6"
+      - name: Build (one folder)
+        working-directory: app
+        run: pyinstaller packaging/pandadeck.spec --noconfirm --distpath ../dist --workpath ../build
+      - name: Archive (Windows)
+        if: runner.os == 'Windows'
+        run: Compress-Archive -Path dist/PandaDeck -DestinationPath dist/pandadeck-app-${{ matrix.name }}.zip
+      - name: Archive (macOS)
+        if: runner.os == 'macOS'
+        run: ditto -c -k --keepParent dist/PandaDeck.app dist/pandadeck-app-${{ matrix.name }}.zip
+      - name: Archive (Linux)
+        if: runner.os == 'Linux'
+        run: tar -C dist -czf dist/pandadeck-app-${{ matrix.name }}.tar.gz PandaDeck
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pandadeck-app-${{ matrix.name }}
+          path: |
+            dist/pandadeck-app-*.zip
+            dist/pandadeck-app-*.tar.gz
+          if-no-files-found: error
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/pandadeck-app-*.zip
+            dist/pandadeck-app-*.tar.gz
+
+  lab-server:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Attach pandadeck-lab to the release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: app/lab_server/pandadeck_lab.py

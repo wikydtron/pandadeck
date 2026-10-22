@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pandadeck"
+version = "1.0.0"
+description = "Desktop companion app for the PandaDeck firmware (BIGTREETECH Panda Touch): stream deck, music, HUD and an optional AI page"
+readme = { text = "See docs/app.md in the PandaDeck repository.", content-type = "text/plain" }
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = [
+    "Pillow>=10",
+    "psutil>=5.9",
+    "pyserial>=3.5",
+    # Windows: media session (GSMTC), Core Audio, shell icons
+    "winrt-runtime>=3.0; sys_platform == 'win32'",
+    "winrt-Windows.Media.Control>=3.0; sys_platform == 'win32'",
+    "winrt-Windows.Media>=3.0; sys_platform == 'win32'",
+    "winrt-Windows.Storage.Streams>=3.0; sys_platform == 'win32'",
+    "winrt-Windows.Foundation>=3.0; sys_platform == 'win32'",
+    "winrt-Windows.Foundation.Collections>=3.0; sys_platform == 'win32'",
+    "pycaw>=20240210; sys_platform == 'win32'",
+    "comtypes>=1.2; sys_platform == 'win32'",
+    "pywin32>=306; sys_platform == 'win32'",
+    # Linux: MPRIS over D-Bus
+    "jeepney>=0.8; sys_platform == 'linux'",
+]
+
+[project.optional-dependencies]
+tray = ["pystray>=0.19"]
+mdns = ["zeroconf>=0.131"]
+svg-icons = ["cairosvg>=2.7; sys_platform == 'linux'"]
+ai-icons = ["resvg-py"]  # draws "Generate with AI" button pictures (SVG -> PNG); no system libraries needed
+dev = ["pytest>=8", "pyinstaller>=6.6"]
+
+[project.scripts]
+pandadeck = "pandadeck.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["pandadeck*"]
+
+[tool.setuptools.package-data]
+pandadeck = [
+    "web/static/*",
+    "*/static/*",
+    "deck/defaults.json",
+]
