@@ -1,0 +1,37 @@
+name: Bug report
+description: Something doesn't work as described
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, what happened instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Computer
+      options: [Windows, macOS, Linux]
+    validations:
+      required: true
+  - type: dropdown
+    id: link
+    attributes:
+      label: How is the panel connected?
+      options: [USB cable to this computer, Wi-Fi only, USB to another computer]
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: App and firmware version (bottom of the settings page, and Panel → Firmware)
+      placeholder: app 1.0.0, firmware 0.6.5
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log excerpt
+      description: From the app's logs folder (Startup section → Open logs). Please remove anything private.
+      render: text

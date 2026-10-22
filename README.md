@@ -1,21 +1,38 @@
 <p align="center">
-  <img src="docs/images/hero.png" alt="PandaDeck's music page on a BIGTREETECH Panda Touch in the 3D-printed desk stand (render with a real screenshot)" width="100%">
+  <img src="app/pandadeck/web/static/logo.svg" alt="" width="88">
 </p>
 
 <h1 align="center">PandaDeck</h1>
 
 <p align="center">
   <b>Turn the BIGTREETECH Panda Touch into a desk companion for your computer.</b><br>
-  A touch stream deck and app launcher, a now-playing music remote, a live PC dashboard —
-  and, if you code with AI, a mission control for Claude Code and Codex.
+  A touch stream deck and app launcher, a now-playing music remote, a live PC dashboard,
+  a soundboard and, if you code with AI, a mission control for Claude Code and Codex.
 </p>
 
 <p align="center">
-  <a href="docs/guide/01-flash-the-panel.md">Install guide</a> ·
-  <a href="../../releases/latest">Download</a> ·
+  <a href="https://github.com/wikydtron/pandadeck/actions/workflows/firmware.yml"><img src="https://github.com/wikydtron/pandadeck/actions/workflows/firmware.yml/badge.svg" alt="Firmware build"></a>
+  <a href="https://github.com/wikydtron/pandadeck/actions/workflows/app.yml"><img src="https://github.com/wikydtron/pandadeck/actions/workflows/app.yml/badge.svg" alt="App tests"></a>
+  <img src="https://img.shields.io/badge/Windows%20%7C%20macOS%20%7C%20Linux-supported-2ea44f" alt="Windows, macOS and Linux">
+  <img src="https://img.shields.io/badge/ESP32--S3-LVGL%209.5-D97757" alt="ESP32-S3, LVGL 9.5">
+  <img src="https://img.shields.io/badge/python-3.10%2B-3776AB?logo=python&amp;logoColor=white" alt="Python 3.10+">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT license"></a>
+</p>
+
+<p align="center">
+  <a href="https://paypal.me/theboss3dfactory"><img src="https://img.shields.io/badge/%F0%9F%8D%BA%20Buy%20me%20a%20beer-FFDD00?style=for-the-badge&amp;logo=paypal&amp;logoColor=000000" alt="Buy me a beer" height="36"></a>
+</p>
+
+<p align="center">
+  <img src="docs/images/hero.png" alt="PandaDeck's music page on a BIGTREETECH Panda Touch in the 3D-printed desk stand (render with a real screenshot)" width="100%">
+</p>
+
+<p align="center">
+  <a href="docs/guide/01-flash-the-panel.md"><b>Install guide</b></a> ·
+  <a href="https://github.com/wikydtron/pandadeck/releases/latest"><b>Download</b></a> ·
   <a href="docs/guide/09-troubleshooting.md">Troubleshooting</a> ·
   <a href="docs/guide/10-build-from-source.md">Build from source</a> ·
-  <a href="https://paypal.me/theboss3dfactory">♥ Support</a>
+  <a href="docs/CHANGELOG.md">Changelog</a>
 </p>
 
 ---
@@ -27,6 +44,26 @@ becomes a keyboard, a remote and a dashboard at the same time — no Wi-Fi setup
 addresses, no tokens.
 
 Works with **Windows, macOS and Linux**.
+
+## Highlights
+
+- **One cable, no setup.** Plug the panel into your computer: it's powered, recognised and
+  talking to the app within seconds. No IP addresses, no drivers, no accounts.
+- **A real keyboard.** Deck keys, media keys and F13–F24 macros are sent by the panel itself as
+  USB HID, so they work in every app and game, even with the app closed.
+- **Your apps, files and websites** one tap away, with their real icons, in a classic card grid
+  or a phone-style icon grid.
+- **Now playing** from Spotify, browsers and any media player, with cover art, artist photos,
+  seek, shuffle/repeat and a ❤ Like button for your Spotify Liked Songs.
+- **A live HUD** of CPU, GPU, temperatures, memory, disk and network, plus your home server
+  and its Docker containers.
+- **A soundboard** with a dozen built-in effects, your own clips (from a file or a link) and
+  pictures found automatically, or drawn for you by Codex or Claude.
+- **AI mission control** *(optional)*: Claude Code and Codex sessions, usage limits, and a
+  full-screen Approve / Deny when an agent asks for permission.
+- **Cross-platform app** for Windows, macOS and Linux: a tray icon and a friendly settings page,
+  wireless firmware updates, and nothing ever leaves your computer.
+- **A 3D-printable desk stand**, free, with print-ready Bambu Studio projects.
 
 ## What's on the screen
 
@@ -120,7 +157,17 @@ everything works except the keyboard keys — see
 PandaDeck is free and open source, and it will stay that way. If it gave your Panda Touch
 a second life and you'd like to say thanks, you can leave a tip on
 **[PayPal](https://paypal.me/theboss3dfactory)**. It's also the
-**♥ Support PandaDeck** link at the bottom of the app's settings page. Thank you!
+**🍺 Buy me a beer** button at the bottom of the app's settings page. Thank you!
+
+<p align="center">
+  <a href="https://paypal.me/theboss3dfactory"><img src="https://img.shields.io/badge/%F0%9F%8D%BA%20Buy%20me%20a%20beer-FFDD00?style=for-the-badge&amp;logo=paypal&amp;logoColor=000000" alt="Buy me a beer" height="36"></a>
+</p>
+
+## Contributing
+
+Bug reports, ideas and pull requests are welcome. See [CONTRIBUTING](.github/CONTRIBUTING.md)
+for how the project is laid out, how to run the tests and how to build the firmware.
+Security issues: please follow [SECURITY](.github/SECURITY.md).
 
 ## Credits
 

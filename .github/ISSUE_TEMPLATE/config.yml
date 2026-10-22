@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Setup guide
+    url: https://github.com/wikydtron/pandadeck/blob/main/docs/guide/01-flash-the-panel.md
+    about: Step-by-step install, from flashing the panel to the first setup.
+  - name: Troubleshooting
+    url: https://github.com/wikydtron/pandadeck/blob/main/docs/guide/09-troubleshooting.md
+    about: Common problems and their fixes.

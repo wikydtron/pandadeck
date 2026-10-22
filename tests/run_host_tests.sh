@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 GXX="${GXX:-g++}"
 FW=firmware/PandaDeck
-CXXFLAGS=(-std=c++17 -O1 -Wall -Wextra -I "$FW" -I firmware/libraries/ArduinoJson/src)
+CXXFLAGS=(-std=c++17 -O1 -Wall -Wextra -iquote "$FW" -I firmware/libraries/ArduinoJson/src)  # -iquote: its features.h must not shadow glibc's
 "$GXX" "${CXXFLAGS[@]}" tests/model_tests.cpp "$FW/model.cpp" "$FW/deck_action.cpp" -o tests/model_tests.exe
 ./tests/model_tests.exe tests/fixtures/snapshot.json
 "$GXX" "${CXXFLAGS[@]}" tests/link_tests.cpp "$FW/link_codec.cpp" "$FW/proto.cpp" -o tests/link_tests.exe

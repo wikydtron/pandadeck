@@ -89,7 +89,7 @@ def _npm_shim_target(cmd: Path) -> list[str] | None:
     m = re.search(r'"%dp0%\\([^"%]+\.(?:c?js|mjs))"', text, re.IGNORECASE)
     if not m:
         return None
-    script = (cmd.parent / m.group(1)).resolve()
+    script = (cmd.parent / m.group(1).replace("\\", "/")).resolve()   # the shim's path uses backslashes
     if not script.is_file():
         return None
     node = cmd.parent / "node.exe"

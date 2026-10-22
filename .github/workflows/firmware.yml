@@ -22,7 +22,7 @@ jobs:
         run: git clone --depth 1 --branch v7.4.2 https://github.com/bblanchon/ArduinoJson.git firmware/libraries/ArduinoJson
       - name: Model, protocol and icon store tests (host g++)
         run: |
-          FLAGS="-std=c++17 -O1 -Wall -Wextra -I firmware/PandaDeck -I firmware/libraries/ArduinoJson/src"
+          FLAGS="-std=c++17 -O1 -Wall -Wextra -iquote firmware/PandaDeck -I firmware/libraries/ArduinoJson/src"  # -iquote: its features.h must not shadow glibc's
           g++ $FLAGS tests/model_tests.cpp firmware/PandaDeck/model.cpp firmware/PandaDeck/deck_action.cpp -o model_tests
           ./model_tests tests/fixtures/snapshot.json
           g++ $FLAGS tests/link_tests.cpp firmware/PandaDeck/link_codec.cpp firmware/PandaDeck/proto.cpp -o link_tests
